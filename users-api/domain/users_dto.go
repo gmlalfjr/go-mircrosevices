@@ -1,28 +1,29 @@
 package domain
 
 import (
-	"github.com/dgrijalva/jwt-go"
-	errors "github.com/users-api/utils"
 	"net/mail"
 	"strconv"
 	"time"
+
+	"github.com/dgrijalva/jwt-go"
+	errors "github.com/go-microservices/users-api/utils"
 )
 
 type User struct {
-	FirstName string `json:"first_name"`
-	Email     string `json:"email"`
-	Password string `json:"password"`
+	FirstName       string `json:"first_name"`
+	Email           string `json:"email"`
+	Password        string `json:"password"`
 	ConfirmPassword string `json:"confirmPassword"`
 }
 
 type UserLogin struct {
-	Id int `json:"id"`
-	Email     string `json:"email"`
+	Id       int    `json:"id"`
+	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
 type Token struct {
-	AccessToken string `json:"accessToken"`
+	AccessToken  string `json:"accessToken"`
 	RefreshToken string `json:"refreshToken"`
 }
 
@@ -67,24 +68,24 @@ func (user *User) ValidatePagination(lmt string, oft string) (int, int, *errors.
 	return int(limit), int(offset), nil
 }
 
-func (userLogin *UserLogin) ValidateLoginUser() *errors.RestErr{
+func (userLogin *UserLogin) ValidateLoginUser() *errors.RestErr {
 
 	return nil
 }
 
-func (userLogin *UserLogin) GenerateToken(id int) (*Token ,*errors.RestErr) {
+func (userLogin *UserLogin) GenerateToken(id int) (*Token, *errors.RestErr) {
 	token := &Token{}
 	generateToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"id": id,
+		"id":  id,
 		"exp": time.Now().Add(time.Minute * 15).Unix(),
 	})
 	generateRefreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"id": id,
+		"id":  id,
 		"exp": time.Now().Add(time.Minute * 15).Unix(),
 	})
 	tokenString, err := generateToken.SignedString([]byte("accessToken"))
 	refreshTokenString, errRefresh := generateRefreshToken.SignedString([]byte("refreshToken"))
-	if err != nil || errRefresh !=nil {
+	if err != nil || errRefresh != nil {
 		return nil, errors.NewInternalServerError("Error Generate Token ")
 	}
 	token.AccessToken = tokenString

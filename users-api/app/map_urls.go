@@ -1,7 +1,7 @@
 package app
 
 import (
-	"github.com/users-api/controller"
+	"github.com/go-microservices/users-api/controller"
 )
 
 func mapUrls() {

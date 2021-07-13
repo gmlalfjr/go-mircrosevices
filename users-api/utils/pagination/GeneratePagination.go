@@ -1,9 +1,10 @@
 package pagination
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/users-api/domain"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
+	"github.com/go-microservices/users-api/domain"
 )
 
 func GenerateValidation(c *gin.Context) domain.Pagination {
@@ -13,5 +14,5 @@ func GenerateValidation(c *gin.Context) domain.Pagination {
 	if limit == 0 {
 		limit = 10
 	}
-	return domain.Pagination{Limit: limit, Offset:  offset}
+	return domain.Pagination{Limit: limit, Offset: offset}
 }

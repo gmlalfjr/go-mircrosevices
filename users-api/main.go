@@ -1,6 +1,6 @@
 package main
 
-import "github.com/users-api/app"
+import "github.com/go-microservices/users-api/app"
 
 func main() {
 	app.RunServer()

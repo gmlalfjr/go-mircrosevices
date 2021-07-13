@@ -1,8 +1,8 @@
 package domain
 
 import (
-	"github.com/users-api/repositories"
-	errors "github.com/users-api/utils"
+	"github.com/go-microservices/users-api/repositories"
+	errors "github.com/go-microservices/users-api/utils"
 )
 
 func (user *User) RegisterUser() *errors.RestErr {

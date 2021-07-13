@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/users-api/domain"
-	"github.com/users-api/services"
+	"github.com/go-microservices/users-api/domain"
+	"github.com/go-microservices/users-api/services"
 )
 
 func RegisterUser(c *gin.Context) {
