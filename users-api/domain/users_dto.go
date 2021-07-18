@@ -7,6 +7,7 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	errors "github.com/go-microservices/users-api/utils"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
@@ -45,6 +46,19 @@ func (user *User) Validate() *errors.RestErr {
 		return errors.NewBadRequest("Must Input Correct Email")
 	}
 	return nil
+}
+
+func (user *User) HashPassword(password string) (string, *errors.RestErr) {
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	if err != nil {
+		return "", errors.NewBadRequest("Failed Hash Password")
+	}
+	return string(hash), nil
+}
+
+func (userLogin *UserLogin) CheckPasswordHash(password, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
 }
 
 func (user *User) ValidatePagination(lmt string, oft string) (int, int, *errors.RestErr) {

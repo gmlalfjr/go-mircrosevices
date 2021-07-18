@@ -19,7 +19,8 @@ func (userLogin *UserLogin) LoginUser() (*UserLogin, *errors.RestErr) {
 	if result := repositories.Client.Table("users").Where("email = ?", userLogin.Email).Find(&user); result.Error != nil {
 		return nil, errors.NewInternalServerError("Something Bad Happened")
 	}
-	if userLogin.Password != user.Password {
+	compare := userLogin.CheckPasswordHash(userLogin.Password, user.Password)
+	if !compare {
 		return nil, errors.NewBadRequest("Wrong Password")
 	}
 	return user, nil

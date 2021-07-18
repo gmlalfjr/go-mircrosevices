@@ -9,6 +9,11 @@ func RegisterUser(user *domain.User) (*domain.User, *errors.RestErr) {
 	if err := user.Validate(); err != nil {
 		return nil, err
 	}
+	hash, err := user.HashPassword(user.Password)
+	user.Password = hash
+	if err != nil {
+		return nil, err
+	}
 
 	if err := user.RegisterUser(); err != nil {
 		return nil, err
